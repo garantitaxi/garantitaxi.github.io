@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--  <base href="/">-->
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Garanti taxi dashBord">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="dashbordg_garanti">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico"/>
+
+  <title>Garanti</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <!-- This script installs service_worker.js to provide PWA functionality to
+       application. For more information, see:
+       https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script>
+    var serviceWorkerVersion = '993494221';
+    var scriptLoaded = false;
+    function loadMainDartJs() {
+      if (scriptLoaded) {
+        return;
+      }
+      scriptLoaded = true;
+      var scriptTag = document.createElement('script');
+      scriptTag.src = 'main.dart.js';
+      scriptTag.type = 'application/javascript';
+      document.body.append(scriptTag);
+    }
+
+    if ('serviceWorker' in navigator) {
+      // Service workers are supported. Use them.
+      window.addEventListener('load', function () {
+        // Wait for registration to finish before dropping the <script> tag.
+        // Otherwise, the browser will load the script multiple times,
+        // potentially different versions.
+        var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
+        navigator.serviceWorker.register(serviceWorkerUrl)
+          .then((reg) => {
+            function waitForActivation(serviceWorker) {
+              serviceWorker.addEventListener('statechange', () => {
+                if (serviceWorker.state == 'activated') {
+                  console.log('Installed new service worker.');
+                  loadMainDartJs();
+                }
+              });
+            }
+            if (!reg.active && (reg.installing || reg.waiting)) {
+              // No active web worker and we have installed or are installing
+              // one for the first time. Simply wait for it to activate.
+              waitForActivation(reg.installing || reg.waiting);
+            } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
+              // When the app updates the serviceWorkerVersion changes, so we
+              // need to ask the service worker to update.
+              console.log('New service worker available.');
+              reg.update();
+              waitForActivation(reg.installing);
+            } else {
+              // Existing service worker is still good.
+              console.log('Loading app from service worker.');
+              loadMainDartJs();
+            }
+          });
+
+        // If service worker doesn't succeed in a reasonable amount of time,
+        // fallback to plaint <script> tag.
+        setTimeout(() => {
+          if (!scriptLoaded) {
+            console.warn(
+              'Failed to load app from service worker. Falling back to plain <script> tag.',
+            );
+            loadMainDartJs();
+          }
+        }, 4000);
+      });
+    } else {
+      // Service workers not supported. Just drop the <script> tag.
+      loadMainDartJs();
+    }
+  </script>
+<!--  <script src="main.dart.js" type="application/javascript"></script>-->
+<!--  <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js"></script>-->
+<!--  <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-messaging.js"></script>-->
+<!--  <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-auth.js"></script>-->
+<!--  <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-database.js"></script>-->
+<!--  <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-analytics.js"></script>-->
+<!--  <script>-->
+<!--      var firebaseConfig = {-->
+<!--    apiKey: "AIzaSyAKMapANMFqO7-hXUfsjfQHtQG6JlSnuAo",-->
+<!--    authDomain: "garantitaxi-b463b.firebaseapp.com",-->
+<!--    databaseURL: "https://garantitaxi-b463b-default-rtdb.firebaseio.com",-->
+<!--    projectId: "garantitaxi-b463b",-->
+<!--    storageBucket: "garantitaxi-b463b.appspot.com",-->
+<!--    messagingSenderId: "64762762994",-->
+<!--    appId: "1:64762762994:web:190d9c6a829741eaaf626b",-->
+<!--    measurementId: "G-43C908WMNP"-->
+<!--  };-->
+<!-- firebase.initializeApp(firebaseConfig);-->
+<!--&lt;!&ndash; firebase.analytics();&ndash;&gt;-->
+<!--  </script>-->
+  <!--  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-database.js";-->
+<!--  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-messaging.js";-->
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-app.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAKMapANMFqO7-hXUfsjfQHtQG6JlSnuAo",
+    authDomain: "garantitaxi-b463b.firebaseapp.com",
+    databaseURL: "https://garantitaxi-b463b-default-rtdb.firebaseio.com",
+    projectId: "garantitaxi-b463b",
+    storageBucket: "garantitaxi-b463b.appspot.com",
+    messagingSenderId: "64762762994",
+    appId: "1:64762762994:web:190d9c6a829741eaaf626b",
+    measurementId: "G-43C908WMNP"
+  };
+  const app = initializeApp(firebaseConfig);
+</script>
+</body>
+</html>
